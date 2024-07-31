@@ -8,6 +8,10 @@ const TaskSchema = new Schema({
   priority: { type: String },
   deadline: { type: Date },
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  updatedDate: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

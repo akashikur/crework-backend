@@ -69,7 +69,17 @@ const editTodo = async (req, res) => {
       });
     }
 
-    await Todo.findByIdAndUpdate(id, { status: status });
+    await Todo.findByIdAndUpdate(
+      id,
+      {
+        status,
+        updatedDate: new Date(),
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     return res.status(200).json({
       status: 200,
