@@ -32,7 +32,6 @@ const createTodo = async (req, res) => {
 
 const getTodos = async (req, res) => {
   const userId = req.locals?.user_id;
-
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized user" });
   }
@@ -54,15 +53,15 @@ const getTodos = async (req, res) => {
 
 const editTodo = async (req, res) => {
   const userId = req.locals?.user_id;
-  const { todo_id } = req.params.id;
+  const { id } = req.params;
   const { status } = req.body;
+
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized user" });
   }
 
   try {
-    const todoData = await Todo.findById(todo_id);
-
+    const todoData = await Todo.findById(id);
     if (!todoData) {
       return res.status(404).json({
         status: 404,
@@ -70,7 +69,7 @@ const editTodo = async (req, res) => {
       });
     }
 
-    await Todo.findByIdAndUpdate(todo_id, { status });
+    await Todo.findByIdAndUpdate(id, { status: status });
 
     return res.status(200).json({
       status: 200,

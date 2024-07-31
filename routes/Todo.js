@@ -11,10 +11,10 @@ const app = express();
 
 app.post("/createTodo", Auth, createTodo);
 
-app.get("getTodos", Auth, getTodos);
+app.get("/getTodos", Auth, getTodos);
 
-app.put("updateTodo/:id", Auth, editTodo);
+app.put("/updateTodo/:id", Auth, editTodo);
 
-app.delete("deleteTodo/:id", Auth, deleteTodo);
+app.delete("/deleteTodo/:id", Auth, deleteTodo);
 
 module.exports = app;
