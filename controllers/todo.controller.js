@@ -94,10 +94,10 @@ const editTodo = async (req, res) => {
 };
 
 const deleteTodo = async (req, res) => {
-  const { todo_id } = req.params.id;
+  const { id } = req.params;
 
   try {
-    const todoData = await Todo.findById(todo_id);
+    const todoData = await Todo.findById(id);
 
     if (!todoData) {
       return res.status(404).json({
@@ -106,7 +106,7 @@ const deleteTodo = async (req, res) => {
       });
     }
 
-    await Todo.findByIdAndDelete(todo_id);
+    await Todo.findByIdAndDelete(id);
 
     return res.status(200).json({
       status: 200,
