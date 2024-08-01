@@ -54,7 +54,7 @@ const getTodos = async (req, res) => {
 const editTodo = async (req, res) => {
   const userId = req.locals?.user_id;
   const { id } = req.params;
-  const { status } = req.body;
+  const { title, status, priority, deadline, description } = req.body;
 
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized user" });
@@ -69,21 +69,24 @@ const editTodo = async (req, res) => {
       });
     }
 
-    await Todo.findByIdAndUpdate(
-      id,
-      {
-        status,
-        updatedDate: new Date(),
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const updateData = {
+      ...(title && { title }),
+      ...(status && { status }),
+      ...(priority && { priority }),
+      ...(deadline && { deadline }),
+      ...(description && { description }),
+      updatedDate: new Date(),
+    };
+
+    const updatedTodo = await Todo.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
 
     return res.status(200).json({
       status: 200,
       message: "Todo updated successfully",
+      data: updatedTodo,
     });
   } catch (error) {
     return res.status(400).json({
